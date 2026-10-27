@@ -402,40 +402,28 @@ aerial.aerialTimer.restart();
 
     Keys.onPressed: {
     if (event.key === Qt.Key_I || event.key === Qt.Key_Info) {
-    controlCenter.show();
-    event.accepted = true; {
-}
+        controlCenter.show();
+        event.accepted = true;
+        return;
+    }
     if (home.quiet) {
-            home.poke();
-            event.accepted = true;
-            return;
-        }
-        if (home.wakingOk(event)) { event.accepted = true; return; }
         home.poke();
-        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-            releaseTimer.stop();
-            if (!home.holding) {
-                home.holding = true;
-                holdTimer.restart();
-            }
-            event.accepted = true;
-        } else if (event.key === webOS.Key_webOS_Back) {
-            event.accepted = true;
-        }
+        event.accepted = true;
+        return;
     }
-
-    Keys.onReleased: {
-        if (home.wakingOk(event)) { event.accepted = true; return; }
-        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-            if (home.holding) releaseTimer.restart();
-            event.accepted = true;
-        } else if (event.key === webOS.Key_webOS_Back) {
-            // Home is the bottom layer, as on Apple TV: Back closes the drawer
-            // and otherwise stays here (LG would drop to an untuned Live TV)
-            if (home.drawer) closeDrawer();
-            event.accepted = true;
+    if (home.wakingOk(event)) { event.accepted = true; return; }
+    home.poke();
+    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+        releaseTimer.stop();
+        if (!home.holding) {
+            home.holding = true;
+            holdTimer.restart();
         }
+        event.accepted = true;
+    } else if (event.key === webOS.Key_webOS_Back) {
+        event.accepted = true;
     }
+}
 
     // ---- background ----
 
