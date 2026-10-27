@@ -11,16 +11,7 @@ Item {
             shelfItems = [];
             return;
         }
-        webOS.service.request("luna://com.webos.service.applicationmanager", {
-            method: "getAppInfo",
-            parameters: { id: focusedApp.id },
-            onSuccess: function (res) {
-                topShelf.fetchContentForApp(res.appId);
-            },
-            onFailure: function (err) {
-                shelfItems = [];
-            }
-        });
+        fetchContentForApp(focusedApp.id);
     }
 
     function fetchContentForApp(appId) {
@@ -39,7 +30,7 @@ Item {
         shelfItems = mockContent[appId] || [];
     }
 
-    visible: shelfItems.length > 0 && !home.drawer && !home.quiet
+    visible: (shelfItems.length > 0) && (!home.drawer) && (!home.quiet)
     height: home.r(260)
     y: home.r(380)
 
@@ -49,9 +40,12 @@ Item {
         Repeater {
             model: topShelf.shelfItems
             delegate: Item {
-                width: home.r(280); height: home.r(180)
+                width: home.r(280)
+                height: home.r(180)
                 Rectangle {
-                    anchors.fill: parent; radius: home.r(16); color: "#1a1a1a"
+                    anchors.fill: parent
+                    radius: home.r(16)
+                    color: "#1a1a1a"
                     Image {
                         anchors.fill: parent
                         source: modelData.image
@@ -66,7 +60,8 @@ Item {
                     text: modelData.title
                     color: "#ffffff"
                     font.pixelSize: home.r(20)
-                    style: Text.Outline; styleColor: "#000000"
+                    style: Text.Outline
+                    styleColor: "#000000"
                 }
             }
         }
