@@ -332,6 +332,7 @@ FocusScope {
 
     // any sign of life: wake, and start the idle count again
     function poke() {
+aerial.aerialTimer.restart();
         if (quiet) {
             quiet = false;
             wokeAt = Date.now();
@@ -400,7 +401,11 @@ FocusScope {
     }
 
     Keys.onPressed: {
-        if (home.quiet) {
+    if (event.key === Qt.Key_I || event.key === Qt.Key_Info) {
+    controlCenter.show();
+    event.accepted = true; {
+}
+    if (home.quiet) {
             home.poke();
             event.accepted = true;
             return;
@@ -608,7 +613,12 @@ FocusScope {
             onOpen: key === "inputs" ? inputsPanel.show() : settingsPanel.show()
             onDown: dockList.forceActiveFocus()
         }
-
+PearTopShelf {
+    id: topShelf
+    home: home
+    focusedApp: home.dockApps[dockList.currentIndex] || null
+    anchors.horizontalCenter: parent.horizontalCenter
+}
         // the frosted dock with the first six apps
         Rectangle {
             id: dock
@@ -796,5 +806,15 @@ FocusScope {
         id: tile
         AdLoadingImage { home: pearHome; app: modelData; idx: index }
     }
+PearControlCenter {
+    id: controlCenter
+    home: home
+    anchors.fill: parent
+}
 
+PearAerial {
+    id: aerial
+    home: home
+    anchors.fill: parent
+}
 }
