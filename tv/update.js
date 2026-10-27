@@ -20,7 +20,7 @@ var zlib = require('zlib');
 var child = require('child_process');
 
 var DIR = process.env.PEAR_DIR || '/var/lib/pearwebos';
-var REPO = 'Arnedeklerk/PearWebOS';
+var REPO = 'ericthebanana0612/ETBWebOS';
 var STATE = DIR + '/update.json';
 var STAGE = DIR + '/update.new';
 var APP_ID = 'org.pearwebos.home';
